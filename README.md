@@ -1,4 +1,6 @@
-# Relabel Button plugin for Sketch
+# Forked from Relabel Button plugin for Sketch
+
+*A nifty hack to meet our usecase of having minimum 56px width*
 
 The Relabel Button plug-in for [Sketch.app](http://bohemiancoding.com/sketch/) prompts for a button's new label then applies the text, resizes the button background and repositions any other interior elements while maintaining the existing padding.
 
@@ -40,7 +42,3 @@ Also thanks to [@fuggfuggfugg](https://github.com/fuggfuggfugg), who graciously 
 
 
 [Twitter](https://twitter.com/itskenmoore)
-
-
-
-

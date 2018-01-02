@@ -4,15 +4,15 @@
 /*
   Author: Ken Moore (with bits from Alexander Kudymov's Dynamic Button plugin)
 
-  The Relabel Button plugin lets you easily change the label of any button 
-  (a group containing a text layer and other visual elements). Just select the 
-  group and press Cmd+J, type the new label into the prompt, and the button is 
-  resized to fit the new text with prior padding preserved.   
+  The Relabel Button plugin lets you easily change the label of any button
+  (a group containing a text layer and other visual elements). Just select the
+  group and press Cmd+J, type the new label into the prompt, and the button is
+  resized to fit the new text with prior padding preserved.
 */
 
 var relabelButton = function(context) {
   var doc = context.document;
-  var selection = context.selection; 
+  var selection = context.selection;
 
 
   // Begin validation of selection
@@ -87,7 +87,7 @@ var relabelButton = function(context) {
   		if ([layer class] == MSTextLayer) {
 // AS OF SKETCH 44 THIS IS OBSOLETE
 // TODO: FIND OUT HOW TO DETERMINE IF RESIZING PROPERTIES ARE SET PROPERLY
-// AND FIX OR WARN IF NOT  			
+// AND FIX OR WARN IF NOT
   			// change layer resizing type to "Resize Object"
 //  			if (layer.resizingType() != 2) {
 //  				layer.resizingType = 2;
@@ -132,7 +132,7 @@ var relabelButton = function(context) {
 	  				priorTextWidth = 0
 	  			} else {
 	  				[layer setStringValue: priorText];
-	  				priorTextWidth = [textFrame width];	  				
+	  				priorTextWidth = [textFrame width];
 	  			}
 
 	  			// get the width of the new text
@@ -165,12 +165,13 @@ var relabelButton = function(context) {
   }
 }
 
-// Set the new padding (resizes layers that surround the text and repositions any 
+// Set the new padding (resizes layers that surround the text and repositions any
 // layers to the right of the text layer's left edge)
 function setButtonPaddingLeftAligned(buttonRect, textLayer, layers, padding) {
   // determine how much the background is changing
   var textFrame = [textLayer frame];
-  var newWidth = padding.left + [textFrame width] + padding.right;
+  // add custom padding meeting our usecase
+  var newWidth = 12 + [textFrame width] + 12;
   var deltaWidth = newWidth - [buttonRect width];
 
   // loop through the layers and resize or reposition all (except textLayer)
@@ -183,7 +184,14 @@ function setButtonPaddingLeftAligned(buttonRect, textLayer, layers, padding) {
       if ([layerFrame x] <= [textFrame x] && [layerFrame x] + [layerFrame width] >= [textFrame x]) {
         // if the layer spans the x coordinate of the text layer, assume it's a background layer
         // and resize its width accordingly
-        layerFrame.setWidth(layerFrame.width() + deltaWidth);
+        if(newWidth < 56){
+          layerFrame.setWidth(56);
+          textFrame.setMidX(28);
+        }
+        else{
+          layerFrame.setWidth(layerFrame.width() + deltaWidth);
+          textFrame.setX(12);
+        }
       }
       else if ([layerFrame x]  > [textFrame x]) {
         // if the layer is entirely to the right of the text layer, just reposition it
@@ -192,5 +200,3 @@ function setButtonPaddingLeftAligned(buttonRect, textLayer, layers, padding) {
     }
   }
 }
-
-
